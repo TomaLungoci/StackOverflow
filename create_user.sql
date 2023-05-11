@@ -64,4 +64,4 @@ insert into tag (id, tag_name) values
 insert into question (id, title, question_text, date_created,
 image_url, author_id)
 values (1, "how to Spring?", "i wanna use spring but i donno",
- "assets/images/products/placeholder.png", NOW(), 1);
+ NOW(), "assets/images/products/placeholder.png", 1);

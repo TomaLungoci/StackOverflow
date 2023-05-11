@@ -49,4 +49,14 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
+
+    public void add(Tag tag){
+        if(tag != null){
+            if(tags == null){
+                tags = new HashSet<>();
+            }
+            tags.add(tag);
+            tag.getQuestions().add(this);
+        }
+    }
 }

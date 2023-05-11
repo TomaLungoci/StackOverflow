@@ -29,4 +29,15 @@ public class Tag {
         this.id = id;
         this.tagName = tagName;
     }
+
+    public void add(Question question){
+        if(question != null){
+            if(questions == null){
+                questions = new HashSet<>();
+            }
+            questions.add(question);
+            question.getTags().add(this);
+        }
+    }
+
 }

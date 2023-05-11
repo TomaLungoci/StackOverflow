@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class QuestionService {
 
@@ -19,18 +20,23 @@ public class QuestionService {
     }
 
 
-    public String deleteById(Long id){
-        try{
+    public String deleteById(Long id) {
+        try {
             questionRepository.deleteById(id);
             return "Success";
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "Failed";
         }
     }
 
-    public Question saveQuestion(Question question){
+    public Question getQuestionById(Long id) {
+        return questionRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Question does not exist")
+        );
+    }
+
+    public Question saveQuestion(Question question) {
         return questionRepository.save(question);
     }
 }

@@ -1,0 +1,48 @@
+<div class="detail-section">
+    <div class="container fluid">
+        <h3>Author:  {{question.user.fname}}</h3>
+        <p>Date created: {{question.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
+        <p>Last Updated: {{question.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
+        <img src="assets/question.png" class="detail-img">
+        <h3>{{ question.title }}</h3>
+        <p>{{ question.questionText }}</p>
+        
+        <div style="overflow-y: auto; ">
+            
+                <div class="p-2 shadow border" id="tasks" >
+                    <div class="input-group row ps-3" >
+                        <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
+                            <b>{{tempQuestion.title}}   </b>
+                        </a> -->
+
+                        
+                        <!-- <div class="card col-md-10 border-0"> {{answer1.answerText}} </div> -->
+                        <div class="card col-md-10 border-0"> salut </div>
+                        <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+                        <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+           
+        </div>
+        <div style="overflow-y: auto; ">
+            
+            <div class="p-2 shadow border" id="tasks" >
+                <div class="input-group row ps-3" >
+                    <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
+                        <b>{{tempQuestion.title}}   </b>
+                    </a> -->
+
+                    
+                    <!-- <div class="card col-md-10 border-0"> {{answer2.answerText}} </div> -->
+                    <div class="card col-md-10 border-0"> dsjanajskdnjkas </div>
+                    <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+                    <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
+                </div>
+            </div>
+       
+    </div>
+        
+
+        <a routerLink="/questions">Back to all questions</a>
+    </div>
+</div>

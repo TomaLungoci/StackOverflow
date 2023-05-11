@@ -15,11 +15,15 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @GetMapping( "/getAll")
+    @GetMapping( value = "/getAll", produces = "application/json")
     @ResponseBody
     public List<Question> retrieveQuestions() {
         return questionService.retrieveQuestions();
     }
+
+    @GetMapping("/getQuestionById/{id}")
+    @ResponseBody
+    public Question getQuestionById(@PathVariable Long id) { return questionService.getQuestionById(id);}
 
 
     @DeleteMapping("/deleteById/{id}")

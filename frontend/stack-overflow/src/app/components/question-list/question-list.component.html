@@ -1,0 +1,26 @@
+<!-- <p *ngFor="let tempQuestion of questions" >
+    {{tempQuestion.title}} {{tempQuestion.questionText}}  {{ tempQuestion._links.tags | json }}<img src="assets/question.png" height="50"/>
+</p> -->
+
+
+
+<h4 class="text-primary mt-4" >Questions : </h4>
+
+<div style="overflow-y: auto; ">
+    <div class="m-3" *ngFor="let tempQuestion of questions">
+        <div class="p-2 shadow border" id="tasks" >
+            <div class="input-group row ps-3" >
+                <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
+                    <b>{{tempQuestion.title}}   </b>
+                </a> -->
+                <a class="link-primary link-offset-2 link-underline-opacity-10 link-underline-opacity-100-hover" routerLink="/questions/{{tempQuestion.id}}">
+                    <b>{{tempQuestion.title}}  <img src="assets/question.png" class="list-img"/> </b>
+                </a>
+                
+                <div class="card col-md-10 border-0"> {{tempQuestion.questionText}} </div>
+                <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+                <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
