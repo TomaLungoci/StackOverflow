@@ -29,9 +29,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
-        disableHttpMethods(Question.class, config, theUnsupportedActions);
+        //disableHttpMethods(Question.class, config, theUnsupportedActions);
 
-        disableHttpMethods(Tag.class, config, theUnsupportedActions);
+//        disableHttpMethods(Tag.class, config, theUnsupportedActions);
 
         //call an internal helper method
         exposeIds(config);

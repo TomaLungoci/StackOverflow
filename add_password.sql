@@ -1,0 +1,4 @@
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE user
+SET password = 'qHBRD7Q8Hk+xDPTCSSGMTg==';

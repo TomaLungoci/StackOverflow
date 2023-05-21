@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping( "/users")
 public class UserController {
@@ -44,4 +44,20 @@ public class UserController {
     public User updateUser(@RequestBody User user){
         return userService.saveUser(user);
     }
+
+    @GetMapping("/getByEmail/{email}")
+    @ResponseBody
+    public User retrieveByEmail(@PathVariable("email") String email){
+        return userService.retrieveUserByEmail(email);
+    }
+
+    @PutMapping("/checkPassword")
+    @ResponseBody
+    public User checkPassword(@RequestBody String password) throws Exception {
+        return userService.checkPassword(password);
+    }
+
+
+
+
 }

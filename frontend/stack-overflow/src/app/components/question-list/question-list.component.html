@@ -13,14 +13,50 @@
                 <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
                     <b>{{tempQuestion.title}}   </b>
                 </a> -->
+                <p>Author: {{tempQuestion.user.fname}} {{tempQuestion.user.lname}}</p>
+                <button (click)="searchByAuthor(tempQuestion.user.lname)" class="btn btn-info">all questions</button>
+
                 <a class="link-primary link-offset-2 link-underline-opacity-10 link-underline-opacity-100-hover" routerLink="/questions/{{tempQuestion.id}}">
                     <b>{{tempQuestion.title}}  <img src="assets/question.png" class="list-img"/> </b>
                 </a>
-                
+                <p>Votecount: {{ tempQuestion?.votecount }}</p>
+
                 <div class="card col-md-10 border-0"> {{tempQuestion.questionText}} </div>
-                <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
-                <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
+                <div class="btn-group">
+                    <div class="m-3" *ngFor="let tempTag of tempQuestion.tags">
+                        <button (click)="filterByTag(tempTag)" class="btn btn-info">{{tempTag.tagName}}</button>
+                    </div>
+                  </div>
+                <button (click)="upvote(tempQuestion)" class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+                <button (click)="downvote(tempQuestion)" class="btn btn-outline-danger col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-down" aria-hidden="true"></i></button>
+                <!-- <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div> -->
             </div>
         </div>
     </div>
 </div>
+
+<!-- <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="form-group">
+    <label for="usr">Tag:</label>
+    <input #myInput type="text" placeholder="enter tag name..." class="form-control" id="usr">
+    <button (click)="createTag(myInput.value)" class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+  </div>

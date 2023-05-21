@@ -21,13 +21,13 @@
 
 <div style="overflow-y: auto; height: 500px;">
     <h4 class="text-primary mt-4">Users : </h4>
-    <div class="m-3" *ngFor="let tempPerson of personList">
+    <div class="m-3" *ngFor="let tempPerson of persons">
         <div class="p-2 shadow border" id="tasks" >
             <div class="input-group row ps-3" >
                 
-                <b>{{tempPerson.firstName}} {{tempPerson.lastName}}   </b>
+                <b>{{tempPerson?.fname}} {{tempPerson?.lname}}   </b>
                 
-                <div class="card col-md-10 border-0"> {{tempPerson.email}} </div>
+                <div class="card col-md-10 border-0"> {{tempPerson?.email}} </div>
             </div>
         </div>
     </div>

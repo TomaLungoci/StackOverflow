@@ -1,48 +1,54 @@
 <div class="detail-section">
     <div class="container fluid">
-        <h3>Author:  {{question.user.fname}}</h3>
-        <p>Date created: {{question.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
-        <p>Last Updated: {{question.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
+        <h3>Author:  {{question?.user?.fname}} {{question?.user?.lname}}</h3>
+        <p>Date created: {{question?.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
+        <p>Last Updated: {{question?.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
         <img src="assets/question.png" class="detail-img">
-        <h3>{{ question.title }}</h3>
-        <p>{{ question.questionText }}</p>
+        <h3>{{ question?.title }}</h3>
+        <p>{{ question?.questionText }}</p>
+        <p>Votecount: {{ question?.votecount }}</p>
+
+        <input #myInput type="text" placeholder="edit text" class="form-control" id="usr">
+        <button  (click)="editQuestion(myInput.value, question)" type="submit" class="btn btn-primary">Edit</button>
+        <button (click)="upvote(question)" class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+        <button (click)="downvote(question)" class="btn btn-outline-danger col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-down" aria-hidden="true"></i></button>
+
         
         <div style="overflow-y: auto; ">
-            
+            <div class="m-3" *ngFor="let tempAnswer of answers">
                 <div class="p-2 shadow border" id="tasks" >
                     <div class="input-group row ps-3" >
-                        <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
-                            <b>{{tempQuestion.title}}   </b>
-                        </a> -->
+                        <p>Author: {{tempAnswer.user.fname}} {{tempAnswer.user.lname}}</p>
+                    <div class="card col-md-10 border-0"> {{tempAnswer.answerText}} </div>
+                    <p>Date created: {{tempAnswer.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
+                    <p>Last Updated: {{tempAnswer.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
+                    <p>Votecount {{ tempAnswer.votecount }}</p>
+                    <button (click)="upvoteAnswer(tempAnswer)" class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
+                    <button (click)="downvoteAnswer(tempAnswer)" class="btn btn-outline-danger col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-down" aria-hidden="true"></i></button>
+                    <!-- <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div> -->
+                    <button  (click)="editAnswer(myInput.value, tempAnswer)" type="submit" class="btn btn-primary">Edit</button>
 
-                        
-                        <!-- <div class="card col-md-10 border-0"> {{answer1.answerText}} </div> -->
-                        <div class="card col-md-10 border-0"> salut </div>
-                        <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
-                        <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
-                    </div>
                 </div>
-           
-        </div>
-        <div style="overflow-y: auto; ">
-            
-            <div class="p-2 shadow border" id="tasks" >
-                <div class="input-group row ps-3" >
-                    <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
-                        <b>{{tempQuestion.title}}   </b>
-                    </a> -->
-
-                    
-                    <!-- <div class="card col-md-10 border-0"> {{answer2.answerText}} </div> -->
-                    <div class="card col-md-10 border-0"> dsjanajskdnjkas </div>
-                    <button class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
-                    <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div>
                 </div>
             </div>
-       
-    </div>
-        
+        </div>
+
+    <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="answerText">Answer</label>
+            <input #answerText type="text" class="form-control" id="answerText" placeholder="answer...">
+          </div>
+
+        </div>
+      
+      
+      
+        <button  (click)="addAnswer(answerText.value)" type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      
 
         <a routerLink="/questions">Back to all questions</a>
     </div>
 </div>
+    

@@ -41,6 +41,8 @@ public class TagService {
     }
 
     public Tag saveTag(Tag tag){
+//        System.out.println(tag);
+//        Tag newTag = new Tag(new Long(123), tag.getTagName());
         return tagRepository.save(tag);
     }
 

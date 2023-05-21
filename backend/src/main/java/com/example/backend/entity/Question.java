@@ -6,9 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "question")
@@ -16,6 +14,7 @@ import java.util.Set;
 public class Question {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -50,6 +49,12 @@ public class Question {
     )
     private Set<Tag> tags;
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private Set<Answer> answers;
+
+    @Column(name = "votecount")
+    private Integer votecount;
+
     public void add(Tag tag){
         if(tag != null){
             if(tags == null){
@@ -57,6 +62,15 @@ public class Question {
             }
             tags.add(tag);
             tag.getQuestions().add(this);
+        }
+    }
+
+    public void addAnswer(Answer answer){
+        if(answer != null){
+            if(answers == null){
+                answers = new HashSet<>();
+            }
+            answers.add(answer);
         }
     }
 }

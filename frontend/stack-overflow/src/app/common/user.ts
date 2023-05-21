@@ -6,7 +6,7 @@ export class User {
     // eMail!: string;
             
       constructor(public cnp: number,
-                  public lName: string,
+                  public lname: string,
                   public fname: string,
-                  public eMail: string){}  
+                  public email: string){}  
 }

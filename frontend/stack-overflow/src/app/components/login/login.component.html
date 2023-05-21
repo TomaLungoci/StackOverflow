@@ -1,0 +1,31 @@
+<h3>Login Page</h3>
+
+<h3>Login Page</h3>
+
+<div class="component-root">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input #myEmail type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input #myPassword type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button (click)="login(myEmail.value, myPassword.value)" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div *ngIf="badPass; else elseBlock">
+        <label>Wrong password</label>
+      </div>
+      
+      <ng-template #elseBlock>
+        <label>logged in</label>
+      </ng-template>
+</div>

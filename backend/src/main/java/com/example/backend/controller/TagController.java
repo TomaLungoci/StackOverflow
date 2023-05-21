@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/tags")
 public class TagController {
@@ -16,7 +17,7 @@ public class TagController {
 
     @GetMapping( "/getAll")
     @ResponseBody
-    public List<Tag> retrieveUsers() {
+    public List<Tag> retrieveTags() {
         return tagService.retrieveTags();
     }
 

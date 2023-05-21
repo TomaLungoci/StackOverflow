@@ -11,7 +11,7 @@
     -moz-box-sizing:border-box;
     box-sizing:border-box
 }
-
+.mt-100{margin-top: 100px}body{background: #00B4DB;background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);background: linear-gradient(to right, #0083B0, #00B4DB);color: #514B64;min-height: 100vh}
 body{
     font-family:Poppins,sans-serif;
     font-weight:400;
@@ -37,6 +37,14 @@ button:focus,input:focus{
 input{
     border:none
 }
+
+.component-container {
+    margin-top: 20px; /* Adjust the value as per your desired spacing */
+  }
+
+  .component-root {
+    margin-top: 20px; /* Adjust the value as per your desired spacing */
+  }
 
 button{
     border:none;
@@ -91,6 +99,9 @@ a:active,a:focus,a:hover{
     text-decoration:none;
     outline:0
 }
+.example-chip-list {
+    width: 100%;
+  }
 
 a,a:hover{
     -webkit-transition:all .3s ease;
