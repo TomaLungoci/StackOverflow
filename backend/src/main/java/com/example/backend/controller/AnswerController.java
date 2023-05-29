@@ -4,11 +4,12 @@ import com.example.backend.entity.Answer;
 import com.example.backend.entity.Question;
 import com.example.backend.service.AnswerService;
 import com.example.backend.service.QuestionService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Transactional
 @CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping( "/answers")
@@ -35,8 +36,13 @@ public class AnswerController {
     @PutMapping("/updateAnswer")
     @ResponseBody
     public Answer updateAnswer(@RequestBody Answer answer){
-        return answerService.saveAnswer(answer);
+        return answerService.saveAnswer1(answer);
     }
+
+
+    @GetMapping("/getAnswerById/{id}")
+    @ResponseBody
+    public Answer getQuestionById(@PathVariable Long id) { return answerService.getAnswerById(id);}
 
 
 

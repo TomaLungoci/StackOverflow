@@ -11,7 +11,7 @@ import java.util.*;
 @Entity
 @Table(name = "question")
 @Data
-public class Question {
+public class Question implements Comparable<Question>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,6 +71,15 @@ public class Question {
                 answers = new HashSet<>();
             }
             answers.add(answer);
+        }
+    }
+
+    @Override
+    public int compareTo(Question o) {
+        if(this.lastUpdated.after(o.getLastUpdated())){
+            return -1;
+        }else{
+            return 1;
         }
     }
 }

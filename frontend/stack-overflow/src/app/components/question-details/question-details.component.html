@@ -1,6 +1,6 @@
 <div class="detail-section">
     <div class="container fluid">
-        <h3>Author:  {{question?.user?.fname}} {{question?.user?.lname}}</h3>
+        <h3>Author:  {{question?.user?.fname}} {{question?.user?.lname}} score {{question?.user?.score}}</h3>
         <p>Date created: {{question?.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
         <p>Last Updated: {{question?.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
         <img src="assets/question.png" class="detail-img">
@@ -12,13 +12,14 @@
         <button  (click)="editQuestion(myInput.value, question)" type="submit" class="btn btn-primary">Edit</button>
         <button (click)="upvote(question)" class="btn btn-outline-success col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-up" aria-hidden="true"></i></button>
         <button (click)="downvote(question)" class="btn btn-outline-danger col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-down" aria-hidden="true"></i></button>
+        <button  (click)="deleteQuestion(question)" type="submit" class="btn btn-primary">Delete</button>
 
         
         <div style="overflow-y: auto; ">
             <div class="m-3" *ngFor="let tempAnswer of answers">
                 <div class="p-2 shadow border" id="tasks" >
                     <div class="input-group row ps-3" >
-                        <p>Author: {{tempAnswer.user.fname}} {{tempAnswer.user.lname}}</p>
+                        <p>Author: {{tempAnswer.user.fname}} {{tempAnswer.user.lname}} score: {{tempAnswer.user.score}}</p>
                     <div class="card col-md-10 border-0"> {{tempAnswer.answerText}} </div>
                     <p>Date created: {{tempAnswer.dateCreated | date:'MMM d, y, h:mm:ss a'}}</p>
                     <p>Last Updated: {{tempAnswer.lastUpdated | date:'MMM d, y, h:mm:ss a'}}</p>
@@ -27,6 +28,7 @@
                     <button (click)="downvoteAnswer(tempAnswer)" class="btn btn-outline-danger col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" ><i class="fa fa-level-down" aria-hidden="true"></i></button>
                     <!-- <div class="btn btn-outline-danger col"><i class="fa fa-level-down" aria-hidden="true"></i></div> -->
                     <button  (click)="editAnswer(myInput.value, tempAnswer)" type="submit" class="btn btn-primary">Edit</button>
+                    <button  (click)="deleteAnswer(tempAnswer)" type="submit" class="btn btn-primary">Delete</button>
 
                 </div>
                 </div>

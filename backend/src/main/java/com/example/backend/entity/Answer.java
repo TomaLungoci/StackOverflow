@@ -11,7 +11,7 @@ import java.util.HashSet;
 @Entity
 @Table(name = "answer")
 @Data
-public class Answer {
+public class Answer implements Comparable<Answer>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,4 +45,8 @@ public class Answer {
     @Column(name = "votecount")
     private Integer votecount;
 
+    @Override
+    public int compareTo(Answer o) {
+        return -this.votecount.compareTo(o.getVotecount());
+    }
 }

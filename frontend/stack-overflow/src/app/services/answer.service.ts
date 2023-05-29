@@ -16,6 +16,7 @@ export class AnswerService {
   private addUrl = 'http://localhost:8080/answers/insertAnswer';
   private getUrl = 'http://localhost:8080/answers/search';
   private updateUrl = 'http://localhost:8080/answers/updateAnswer';
+  private getURL2 = 'http://localhost:8080/answers/getAnswerById';
   constructor(private httpClient: HttpClient) { }
 
   private handleError(error: HttpErrorResponse) {
@@ -36,6 +37,11 @@ export class AnswerService {
     return this.httpClient.post<Answer>(this.addUrl, answer).pipe(
       catchError(this.handleError)
     );
+  }
+
+  getAnswer(theAnswerId: number): Observable<Answer> {
+    const answerUrl = `${this.getURL2}/${theAnswerId}`;
+    return this.httpClient.get<Answer>(answerUrl);
   }
 
   getAnswers(searchUrl: string): Observable<Answer[]> {

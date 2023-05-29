@@ -16,6 +16,7 @@ export class PersonService {
   private getURL = 'http://localhost:8080/users/getAll';
   private getURL2 = 'http://localhost:8080/users/getById';
   private checkUrl = 'http://localhost:8080/users/checkPassword';
+  private updateUrl = 'http://localhost:8080/users/updateUser';
   constructor(private httpClient: HttpClient) {
   }
 
@@ -46,6 +47,10 @@ export class PersonService {
 
   setTheAuthId(value: number){
     this.theAuthId = value;
+  }
+  
+  editUser(user: User){
+    return this.httpClient.put<User>(this.updateUrl, user);
   }
 
 }

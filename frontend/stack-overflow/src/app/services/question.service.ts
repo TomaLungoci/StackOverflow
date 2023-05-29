@@ -17,6 +17,8 @@ export class QuestionService {
   private updateUrl = 'http://localhost:8080/questions/updateQuestion';
   private tagUrl = 'http://localhost:8080/questions/getQuestionByTag';
   private authorUrl = 'http://localhost:8080/questions/getQuestionByAuthor';
+  private deleteUrl = 'http://localhost:8080/questions/deleteById';
+ 
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,6 +27,11 @@ export class QuestionService {
   //     map(response => response._embedded.questions)
   //   );
   // }
+
+  deleteQuestion(theQuestionId: number) {
+    const questionUrl = `${this.deleteUrl}/${theQuestionId}`;
+    return this.httpClient.delete<any>(questionUrl);
+  }
 
   getQuestionList(): Observable<Question[]> {
     return this.httpClient.get<Question[]>(this.getURL)

@@ -6,6 +6,8 @@ import com.example.backend.service.QuestionService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,10 @@ public class QuestionController {
 
     @DeleteMapping("/deleteById/{id}")
     @ResponseBody
-    public String deleteById(@PathVariable Long id){
-        return questionService.deleteById(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        String response = questionService.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"" + response +"\"}");
     }
 
     @PostMapping("/insertQuestion")

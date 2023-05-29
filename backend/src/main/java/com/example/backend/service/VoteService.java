@@ -1,11 +1,10 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Tag;
+import com.example.backend.entity.User;
 import com.example.backend.entity.Vote;
-import com.example.backend.repository.AnswerRepository;
-import com.example.backend.repository.QuestionRepository;
-import com.example.backend.repository.TagRepository;
-import com.example.backend.repository.VoteRepository;
+import com.example.backend.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class VoteService {
 
     @Autowired
     VoteRepository voteRepository;
+    @Autowired
+    UserService userService;
 //    @Autowired
 //    AnswerRepository answerRepository;
 //    @Autowired
@@ -62,6 +64,29 @@ public class VoteService {
 //            }else if(vote.getAnswer() != null){
 //                answerService.updateVotecount(vote.getAnswer().getId(), vote.getLike());
 //            }
+            if(vote.getQuestion() != null){
+                User user = vote.getQuestion().getUser();
+                if(vote.getType() == 1){
+                    user.setScore(user.getScore() + 2.5);
+                    userService.saveUser(user);
+                }else{
+                    user.setScore(user.getScore() - 1.5);
+                    userService.saveUser(user);
+                }
+            }
+            if(vote.getAnswer() != null){
+                User user = vote.getAnswer().getUser();
+                if(vote.getType() == 1){
+                    user.setScore(user.getScore() + 5);
+                    userService.saveUser(user);
+                }else{
+                    user.setScore(user.getScore()- 2.5);
+                    userService.saveUser(user);
+                    User authorOfDislike = vote.getUser();
+                    authorOfDislike.setScore(authorOfDislike.getScore() - 1.5);
+                    userService.saveUser(authorOfDislike);
+                }
+            }
             return voteRepository.save(vote);
         }
         return null;

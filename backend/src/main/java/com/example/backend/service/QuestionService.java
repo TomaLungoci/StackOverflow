@@ -10,9 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuestionService {
@@ -22,7 +20,9 @@ public class QuestionService {
     Pageable pageable;
 
     public List<Question> retrieveQuestions() {
-        return (List<Question>) questionRepository.findAll();
+        List<Question> questions = (List<Question>) questionRepository.findAll();
+        Collections.sort(questions);
+        return questions;
     }
 
 

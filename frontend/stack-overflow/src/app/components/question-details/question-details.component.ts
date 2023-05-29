@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Answer } from 'src/app/common/answer';
 import { Question } from 'src/app/common/question';
 import { User } from 'src/app/common/user';
@@ -18,8 +18,10 @@ export class QuestionDetailsComponent implements OnInit {
 
   question!: Question;
   newAnswer!: Answer;
+  answer!: Answer;
   author!: User;
   answers: any[] = [];
+  isAdmin: boolean = false;
   // voteResponse!: Vote | null;
   // answer1 = new Answer(1, "This is the answer to all problems");
   // answer2 = new Answer(2, "This is the answer to all questions");
@@ -27,7 +29,8 @@ export class QuestionDetailsComponent implements OnInit {
               private personService: PersonService,
               private answerService: AnswerService,
               private route: ActivatedRoute,
-              private voteService: VoteService) { }
+              private voteService: VoteService,
+              private router: Router) { }
 
   ngOnInit(): void {
     
@@ -65,6 +68,29 @@ export class QuestionDetailsComponent implements OnInit {
     )
   }
 
+  getAuthor1(id: number, question:Question){
+    console.log("hereeeeeeeeeeeee");
+    this.personService.getPerson(id).subscribe(
+      (data: User) => {
+        console.log(data)
+        this.author = data;
+        let vote: Vote = new Vote(1, null, question, this.author)
+        this.voteService.addVote(vote).subscribe(
+          data => {
+          console.log(data)
+          let voteResponse: Vote | null = data;
+          if(voteResponse != null){
+            // let newQuestion: Question = question;
+            // newQuestion.votecount = question.votecount + 1;
+            // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
+            question.votecount = question.votecount + 1;
+            this.questionService.editQuestion(question).subscribe()
+          }
+        })
+      }
+    )
+  }
+
   getAuthorbyId(id: number, answerText: string){
     console.log("get the user with id :");
     console.log(id);
@@ -74,8 +100,37 @@ export class QuestionDetailsComponent implements OnInit {
       (data: User) => {
         console.log(data)
         this.author = data;
-        this.newAnswer = new Answer(this.author, answerText, "assets/images/products/placeholder.png", new Date(), new Date(), this.question, 0);
+        this.newAnswer = new Answer(null, this.author, answerText, "assets/images/products/placeholder.png", new Date(), new Date(), this.question, 0);
         this.answerService.addAnswer(this.newAnswer).subscribe();
+        this.personService.setIsAuth(true);
+      }
+    )
+  }
+
+  getIsAdmin(id:number){
+    this.personService.getPerson(id).subscribe(
+      (data: User) => {
+        console.log(data)
+        this.author = data;
+        if(this.author.admin == 1){
+          this.isAdmin  = true;
+        }else{
+          this.isAdmin = false;
+        }
+      }
+    )
+  }
+
+  getAuthorbyId2(id: number){
+    console.log("get the user with id :");
+    console.log(id);
+    console.log('-------------------')
+
+    this.personService.getPerson(id).subscribe(
+      (data: User) => {
+        console.log(data)
+        this.author = data;
+
         this.personService.setIsAuth(true);
       }
     )
@@ -108,16 +163,64 @@ export class QuestionDetailsComponent implements OnInit {
     
   }
 
+  getAnswer(answerId: number, editText: string){
+    this.answerService.getAnswer(answerId).subscribe(
+      (data: Answer) => {
+        console.log(data)
+       this.answer = data;
+       this.answer.answerText = editText;
+       this.answer.lastUpdated = new Date();
+       this.answerService.editAnswer(this.answer).subscribe();
+     }
+    )
+  }
+
   editAnswer(editText: string, answer: Answer){
     let authorId = answer.user.cnp;
     if(localStorage.getItem('isAuth')=='true'){
       if(+localStorage.getItem('authId')! == authorId){
-          answer.answerText = editText;
-          answer.lastUpdated = new Date();
+          this.getAnswer(answer.id!, editText);
+          // this.answer.answerText = editText;
+          // this.answer.lastUpdated = new Date();
+          // this.answerService.editAnswer(this.answer).subscribe();
+      }
+    }
+
+    this.getIsAdmin(+localStorage.getItem('authId')!);
+    if(this.isAdmin == true){
+      answer.answerText = editText;
+      this.answerService.editAnswer(answer).subscribe();
+    }
+  }
+
+  
+
+  deleteAnswer(answer: Answer){
+    let authorId = answer.user.cnp;
+    if(localStorage.getItem('isAuth')=='true'){
+      if(+localStorage.getItem('authId')! == authorId){
           this.answerService.editAnswer(answer).subscribe();
       }
     }
   }
+
+  deleteQuestion(question: Question){
+    let authorId = question.user.cnp;
+    if(localStorage.getItem('isAuth')=='true'){
+      if(+localStorage.getItem('authId')! == authorId){
+          question.lastUpdated = new Date();
+          this.questionService.deleteQuestion(question.id).subscribe();
+      }
+    }
+    this.getIsAdmin(+localStorage.getItem('authId')!);
+    if(this.isAdmin == true){
+      this.questionService.deleteQuestion(question.id).subscribe();
+    }
+    
+    this.router.navigateByUrl(`/questions`);
+
+  }
+
   editQuestion(editText: string, question: Question){
     let authorId = question.user.cnp;
     if(localStorage.getItem('isAuth')=='true'){
@@ -127,24 +230,43 @@ export class QuestionDetailsComponent implements OnInit {
           this.questionService.editQuestion(question).subscribe();
       }
     }
+    this.getIsAdmin(+localStorage.getItem('authId')!);
+    if(this.isAdmin == true){
+      question.questionText = editText;
+      question.lastUpdated = new Date();
+      this.questionService.editQuestion(question).subscribe();
+    }
   }
 
-  upvote(question: Question){
+  upvote1(question: Question){
     if(localStorage.getItem('isAuth') == 'true'){
       this.getAuthor(+localStorage.getItem('authId')!);
-      let vote: Vote = new Vote(1, null, question, this.author)
-      this.voteService.addVote(vote).subscribe(
-        data => {
-        console.log(data)
-        let voteResponse: Vote | null = data;
-        if(voteResponse != null){
-          // let newQuestion: Question = question;
-          // newQuestion.votecount = question.votecount + 1;
-          // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
-          question.votecount = question.votecount + 1;
-          this.questionService.editQuestion(question).subscribe()
-        }
-      })
+      if(+localStorage.getItem('authId')! != question.user.cnp || true){
+        let vote: Vote = new Vote(1, null, question, this.author)
+        this.voteService.addVote(vote).subscribe(
+          data => {
+          console.log(data)
+          let voteResponse: Vote | null = data;
+          if(voteResponse != null){
+            // let newQuestion: Question = question;
+            // newQuestion.votecount = question.votecount + 1;
+            // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
+            question.votecount = question.votecount + 1;
+            this.questionService.editQuestion(question).subscribe()
+          }
+        })
+  
+      }
+      //this.handleListQuestions();
+    }
+  }
+  upvote(question: Question){
+    if(localStorage.getItem('isAuth') == 'true'){
+      this.getAuthor1(+localStorage.getItem('authId')!, question);
+      if(+localStorage.getItem('authId')! != question.user.cnp || true){
+        
+  
+      }
       //this.handleListQuestions();
     }
   }
@@ -172,27 +294,30 @@ export class QuestionDetailsComponent implements OnInit {
   upvoteAnswer(answer: Answer){
     if(localStorage.getItem('isAuth') == 'true'){
       this.getAuthor(+localStorage.getItem('authId')!);
-      let vote: Vote = new Vote(1, answer, null, this.author)
-      this.voteService.addVote(vote).subscribe(
-        data => {
-        console.log(data)
-        let voteResponse: Vote | null = data;
-        if(voteResponse != null){
-          // let newQuestion: Question = question;
-          // newQuestion.votecount = question.votecount + 1;
-          // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
-          answer.votecount = answer.votecount + 1;
-          this.answerService.editAnswer(answer).subscribe()
-        }
-      })
+      if(+localStorage.getItem('authId')! != answer.user.cnp || true){
+        // this.getAnswer(answer.id!)
+        let vote: Vote = new Vote(1, answer, null, this.author)
+        this.voteService.addVote(vote).subscribe(
+          data => {
+          console.log(data)
+          let voteResponse: Vote | null = data;
+          if(voteResponse != null){
+            // let newQuestion: Questi    on = question;
+            // newQuestion.votecount = question.votecount + 1;
+            // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
+            answer.votecount = answer.votecount + 1;
+            this.answerService.editAnswer(this.answer).subscribe()
+          }
+        })
+      }
       //this.handleListQuestions();
     }
   }
 
-  downvoteAnswer(answer: Answer){
+  downvoteAnswer1(answer: Answer){
     if(localStorage.getItem('isAuth') == 'true'){
       this.getAuthor(+localStorage.getItem('authId')!);
-      let vote: Vote = new Vote(1, answer, null, this.author)
+      let vote: Vote = new Vote(0, answer, null, this.author)
       this.voteService.addVote(vote).subscribe(
         data => {
         console.log(data)
@@ -207,6 +332,36 @@ export class QuestionDetailsComponent implements OnInit {
       })
       //this.handleListQuestions();
     }
+  }
+
+  downvoteAnswer(answer: Answer){
+    if(localStorage.getItem('isAuth') == 'true'){
+      this.getAuthor2(+localStorage.getItem('authId')!, answer);
+
+      //this.handleListQuestions();
+    }
+  }
+  getAuthor2(id: number, answer: Answer) {
+    console.log("hereeeeeeeeeeeee");
+    this.personService.getPerson(id).subscribe(
+      (data: User) => {
+        console.log(data)
+        this.author = data;
+        let vote: Vote = new Vote(0, answer, null, this.author)
+        this.voteService.addVote(vote).subscribe(
+          data => {
+          console.log(data)
+          let voteResponse: Vote | null = data;
+          if(voteResponse != null){
+            // let newQuestion: Question = question;
+            // newQuestion.votecount = question.votecount + 1;
+            // let newQuestion: Question = new Question(question.id, question.user, question.title, question.questionText, question.imageUrl, question.dateCreated, question.lastUpdated, question.tags, question.answers, question.votecount + 1);
+            answer.votecount = answer.votecount - 1;
+            this.answerService.editAnswer(answer).subscribe()
+          }
+        })
+      }
+    )
   }
   
 

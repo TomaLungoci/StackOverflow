@@ -1,0 +1,10 @@
+<div class="detail-section">
+    <p>. </p>
+    <p>. </p>
+    <h3>Author:  {{user?.fname}} {{user?.lname}} score {{user?.score}}</h3>
+    <div *ngIf="isAdmin">
+        <button (click)="banUser(user)" type="submit" class="btn btn-primary">Ban User</button>
+        <button (click)="unbanUser(user)" type="submit" class="btn btn-primary">Unban User</button>
+    </div>
+
+</div>

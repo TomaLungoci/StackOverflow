@@ -1,6 +1,3 @@
-<!-- <p *ngFor="let tempQuestion of questions" >
-    {{tempQuestion.title}} {{tempQuestion.questionText}}  {{ tempQuestion._links.tags | json }}<img src="assets/question.png" height="50"/>
-</p> -->
 
 
 
@@ -13,7 +10,7 @@
                 <!-- <a routerLink="/questions/{{ tempQuestion.id}}">
                     <b>{{tempQuestion.title}}   </b>
                 </a> -->
-                <p>Author: {{tempQuestion.user.fname}} {{tempQuestion.user.lname}}</p>
+                <p>Author: {{tempQuestion.user.fname}} {{tempQuestion.user.lname}} score {{tempQuestion.user.score}}</p>
                 <button (click)="searchByAuthor(tempQuestion.user.lname)" class="btn btn-info">all questions</button>
 
                 <a class="link-primary link-offset-2 link-underline-opacity-10 link-underline-opacity-100-hover" routerLink="/questions/{{tempQuestion.id}}">

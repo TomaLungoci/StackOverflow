@@ -24,8 +24,10 @@
     <div class="m-3" *ngFor="let tempPerson of persons">
         <div class="p-2 shadow border" id="tasks" >
             <div class="input-group row ps-3" >
+                <a class="link-primary link-offset-2 link-underline-opacity-10 link-underline-opacity-100-hover" routerLink="/users/{{tempPerson.cnp}}">
+                    <b>{{tempPerson?.fname}} {{tempPerson?.lname}}   </b>
+                </a>
                 
-                <b>{{tempPerson?.fname}} {{tempPerson?.lname}}   </b>
                 
                 <div class="card col-md-10 border-0"> {{tempPerson?.email}} </div>
             </div>

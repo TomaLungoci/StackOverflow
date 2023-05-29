@@ -4,13 +4,17 @@ import com.example.backend.entity.Answer;
 import com.example.backend.entity.Question;
 import com.example.backend.repository.AnswerRepository;
 import com.example.backend.repository.QuestionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class AnswerService {
 
@@ -63,7 +67,23 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
+    public Answer saveAnswer1(Answer answer) {
+        System.out.println("saving question...");
+        Optional<Question> q = questionRepository.findById(answer.getQuestion().getId());
+        Question question = q.get();
+        question.addAnswer(answer);
+        //answer.setId(null);
+        return answerRepository.save(answer);
+    }
+
     public List<Answer> getQuestionAnswers(Long id){
-        return answerRepository.findByQuestionId(id, pageable).getContent();
+        List<Answer> answers = new ArrayList<>();
+        for(Answer answer: (List<Answer>) answerRepository.findByQuestionId(id, pageable).getContent()){
+            answers.add(answer);
+        }
+        if(answers != null || answers.size() == 0){
+            Collections.sort(answers);
+        }
+        return answers;
     }
 }

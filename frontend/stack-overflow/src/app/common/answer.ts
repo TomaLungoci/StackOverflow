@@ -4,6 +4,7 @@ import { User } from "./user";
 export class Answer {
 
     constructor(
+        public id: number | null,
         public user: User,
         public answerText: string,
         public imageUrl: string,

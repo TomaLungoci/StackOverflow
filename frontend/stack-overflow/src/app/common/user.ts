@@ -8,5 +8,8 @@ export class User {
       constructor(public cnp: number,
                   public lname: string,
                   public fname: string,
-                  public email: string){}  
+                  public email: string,
+                  public score: number,
+                  public admin: number,
+                  public banned: number){}  
 }

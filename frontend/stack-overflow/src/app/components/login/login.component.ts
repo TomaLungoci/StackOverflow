@@ -56,11 +56,13 @@ export class LoginComponent implements OnInit {
                 console.log(data)
                 let found: User = data;
                 if(found != null){
-                  this.currentUser = tempUser;
-                  this.personService.setIsAuth(true);
-                  localStorage.setItem('isAuth', 'true');
-                  localStorage.setItem('authId', tempUser.cnp.toString());
-                  this.personService.setTheAuthId(tempUser.cnp);      
+                  if(found.banned != 1){
+                    this.currentUser = tempUser;
+                    this.personService.setIsAuth(true);
+                    localStorage.setItem('isAuth', 'true');
+                    localStorage.setItem('authId', tempUser.cnp.toString());
+                    this.personService.setTheAuthId(tempUser.cnp);
+                  }
                 }else{
                   this.badPass = true;
                 }
